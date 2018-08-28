@@ -6,7 +6,7 @@ This plugin is connected to BanLister's ever-growing repository, allowing you fu
 
 ### Installation
 
-Download the ZIP file and extract ```BanLister-ServerGuard``` addon to the addons folder.
+Download the ZIP file and extract ```Gmod-BanLister``` addon to the addons folder.
 
 ### Configuration
 
