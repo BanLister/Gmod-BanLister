@@ -19,11 +19,11 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 		function(body, size, h, code)
 			local data = util.JSONToTable(body)
 
-			local count = table.Count(data)
+			local count = #data -- use the length operator when its numerically indexed (i believe in this case this is). table.Count is good for sequentially
 
-			PrintTable(data)
+			--PrintTable(data)
 
-			print("Bans count: "..count)
+			--print("Bans count: "..count)
 
 			if count >= BanLister.MaxBans then return end
 
