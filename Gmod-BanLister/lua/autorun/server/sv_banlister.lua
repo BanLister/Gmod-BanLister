@@ -18,11 +18,11 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 		function(body, size, h, code)
 			local data = util.JSONToTable(body)
 
-			local count = table.Count(data)
+			local count = #data -- if the table is sequentially indexed then it is okay to use table.Count (i believe its numerically - hence the commit).
 
-			PrintTable(data)
+			--PrintTable(data)
 
-			print("Bans count: "..count)
+			--print("Bans count: "..count)
 
 			if count >= BanLister.MaxBans then return end
 
@@ -38,7 +38,7 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 			end
 		end,
 		function(e)
-			print("[BanLister] API FAILED WITH STATUS: "..e)
+			print("[BanLister] API FAILED WITH STATUS: \n"..e)
 		end
 	)
 end)
