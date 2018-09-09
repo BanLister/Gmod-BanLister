@@ -1,5 +1,6 @@
 BanLister = BanLister or {}
 
+BanLister.allowedAdmins = {["moderator"] = true, ["mod"] = true} -- alert other ranks that may now be classed as Admin with CAMI admin mods.
 BanLister.MaxBans = 15 -- If the user has equal to or more recorded bans then this value, then the user will be kicked from the server.
 BanLister.RangeBans = "month" -- "total" - "month" -- MaxBans Time period.
 BanLister.KickHim = false -- if false, instead of kicking users for MaxBans a message will be sent to staff. If true a message won't be sent and the user will be kicked.
@@ -18,11 +19,11 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 		function(body, size, h, code)
 			local data = util.JSONToTable(body)
 
-			local count = table.Count(data)
+			local count = #data -- use the length operator when its numerically indexed (i believe in this case this is). table.Count is good for sequentially
 
-			PrintTable(data)
+			--PrintTable(data)
 
-			print("Bans count: "..count)
+			--print("Bans count: "..count)
 
 			if count >= BanLister.MaxBans then return end
 
@@ -31,7 +32,7 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 				ply:Kick(string.format(BanLister.KickReason, name))
 			else
 				for k,v in pairs(player.GetAll()) do
-					if not v:IsAdmin() then continue end
+					if not v:IsAdmin() || BanLister.allowedAdmins[v:GetUserGroup()] then continue end
 
 					v:ChatAddText(Color(220, 200, 0), "[BanLister] ", color_white, string.format(BanLister.AdminMessage, name, count))
 				end
