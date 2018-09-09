@@ -1,10 +1,10 @@
 BanLister = BanLister or {}
 
-BanLister.allowedAdmins = {["moderator"] = true, ["mod"] = true} -- alert other ranks that may now be classed as Admin with CAMI admin mods.
 BanLister.MaxBans = 15 -- If the user has equal to or more recorded bans then this value, then the user will be kicked from the server.
 BanLister.RangeBans = "month" -- "total" - "month" -- MaxBans Time period.
 BanLister.KickHim = false -- if false, instead of kicking users for MaxBans a message will be sent to staff. If true a message won't be sent and the user will be kicked.
 BanLister.KickReason = "Sorry %s but this server is protected by Ban Lister ensuring a safe community" -- %s = player name
+BanLister.allowedAdmins = {["moderator"] = true, ["mod"] = true} -- alert other ranks that may not be classed as Admin with CAMI admin mods.
 BanLister.AdminMessage = "%s has %d bans in the past month recorded" -- %s = player name
 
 --DO NOT MODIFY PAST THIS POINT--
@@ -32,7 +32,7 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 				ply:Kick(string.format(BanLister.KickReason, name))
 			else
 				for k,v in pairs(player.GetAll()) do
-					if not v:IsAdmin() || BanLister.allowedAdmins[v:GetUserGroup()] then continue end
+					if not v:IsAdmin() || not BanLister.allowedAdmins[v:GetUserGroup()] then continue end
 
 					v:ChatAddText(Color(220, 200, 0), "[BanLister] ", color_white, string.format(BanLister.AdminMessage, name, count))
 				end
