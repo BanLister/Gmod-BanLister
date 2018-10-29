@@ -1,5 +1,6 @@
 BanLister = BanLister or {}
 
+BanLister.API = "" -- Provided BanLister Community Key
 BanLister.MaxBans = 15 -- If the user has equal to or more recorded bans then this value, then the user will be kicked from the server.
 BanLister.RangeBans = "month" -- "total" - "month" -- MaxBans Time period.
 BanLister.KickHim = false -- if false, instead of kicking users for MaxBans a message will be sent to staff. If true a message won't be sent and the user will be kicked.
@@ -18,7 +19,7 @@ hook.Add("PlayerInitialSpawn", "BanLister.CheckForBans", function(ply)
 	local s = BanLister.RangeBans == "month" and "retrieve-month" or "retrieve"
 
 	http.Fetch(
-		string.format("https://api.banlister.com/%s.php?steamid=%s", s, steamid64),
+		string.format("https://api.banlister.com/%s.php?i=1&api_key=%s&steamid=%s", s, BanLister.API, steamid64),
 		function(body, size, h, code)
 			local data = util.JSONToTable(body)
 
